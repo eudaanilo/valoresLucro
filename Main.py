@@ -34,12 +34,12 @@ def calcular_valores():
         texto_resultados.config(state="normal")  # Habilita o campo de resultados
         texto_resultados.delete(1.0, tk.END)
         texto_resultados.insert(tk.END, "\t\t\tTabela de Preços:\n")
-        texto_resultados.insert(tk.END, "---------------------------------------------------------------\n")
-        texto_resultados.insert(tk.END, "Item\tValor")
+        texto_resultados.insert(tk.END, "-----------------------------------------------------------------------------\n")
+        texto_resultados.insert(tk.END, "Item\tValor\t")
         for fator in fatores:
-            texto_resultados.insert(tk.END, f"\tValor x {fator}")
+            texto_resultados.insert(tk.END, f"\tValor x {fator}\t")
         texto_resultados.insert(tk.END, "\n")
-        texto_resultados.insert(tk.END, "---------------------------------------------------------------\n")
+        texto_resultados.insert(tk.END, "---------------------------------------------------------------------------\n")
         
         for i, valor in enumerate(valores):
             texto_resultados.insert(tk.END, f"{i+1}\t{valor:.2f}")
@@ -48,8 +48,8 @@ def calcular_valores():
                 texto_resultados.insert(tk.END, f"\t\t{calculo:.2f}")
             texto_resultados.insert(tk.END, "\n\n")
         
-        texto_resultados.config(state="disabled")  # Desabilita o campo de resultados
-        texto_resultados.config(edit_modified=False)  # Desabilita a edição do campo de resultados
+        texto_resultados.config(state="disabled")
+        texto_resultados.config(edit_modified=False)
     except ValueError:
         messagebox.showerror("Erro", "Por favor, insira valores válidos.")
 
