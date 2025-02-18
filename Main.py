@@ -15,37 +15,38 @@ def calcular_valores():
                 return
             valores.append(valor)
         
-        porcentagens = []
-        if var_porcentagem_3_0.get():
-            porcentagens.append(3.0)
-        if var_porcentagem_2_8.get():
-            porcentagens.append(2.8)
-        if var_porcentagem_2_7.get():
-            porcentagens.append(2.7)
-        if var_porcentagem_2_5.get():
-            porcentagens.append(2.5)
-        if var_porcentagem_2_25.get():
-            porcentagens.append(2.25)
+        fatores = []
+        if var_fator_3_0.get():
+            fatores.append(3.0)
+        if var_fator_2_8.get():
+            fatores.append(2.8)
+        if var_fator_2_7.get():
+            fatores.append(2.7)
+        if var_fator_2_5.get():
+            fatores.append(2.5)
+        if var_fator_2_25.get():
+            fatores.append(2.25)
         
-        if not porcentagens:
-            messagebox.showerror("Erro", "Por favor, selecione pelo menos uma porcentagem.")
+        if not fatores:
+            messagebox.showerror("Erro", "Por favor, selecione pelo menos um fator.")
             return
         
         texto_resultados.config(state="normal")  # Habilita o campo de resultados
         texto_resultados.delete(1.0, tk.END)
         texto_resultados.insert(tk.END, "\t\t\tTabela de Preços:\n")
         texto_resultados.insert(tk.END, "---------------------------------------------------------------\n")
-        texto_resultados.insert(tk.END, "Item | Valor Inserido | ")
-        for porcentagem in porcentagens:
-            texto_resultados.insert(tk.END, f"Valor x {porcentagem} | ")
+        texto_resultados.insert(tk.END, "Item\tValor")
+        for fator in fatores:
+            texto_resultados.insert(tk.END, f"\tValor x {fator}")
         texto_resultados.insert(tk.END, "\n")
         texto_resultados.insert(tk.END, "---------------------------------------------------------------\n")
         
         for i, valor in enumerate(valores):
-            texto_resultados.insert(tk.END, f"{i+1}\t{valor:.2f}\t")
-            for porcentagem in porcentagens:
-                texto_resultados.insert(tk.END, f"{valor * porcentagem:.2f}\t")
-            texto_resultados.insert(tk.END, "\n")
+            texto_resultados.insert(tk.END, f"{i+1}\t{valor:.2f}")
+            for fator in fatores:
+                calculo = valor * fator
+                texto_resultados.insert(tk.END, f"\t\t{calculo:.2f}")
+            texto_resultados.insert(tk.END, "\n\n")
         
         texto_resultados.config(state="disabled")  # Desabilita o campo de resultados
         texto_resultados.config(edit_modified=False)  # Desabilita a edição do campo de resultados
@@ -84,23 +85,52 @@ entrada_num_itens.bind("<Return>", criar_entradas_valores)
 botao_atualizar = tk.Button(frame_superior, text="Atualizar", command=atualizar_entradas_valores, bg="#4CAF50", fg="#ffffff", relief="flat")
 botao_atualizar.pack(fill="x", pady=5)
 
-frame_valores = tk.Frame(janela, bg="#f0f0f0")
+canvas = tk.Canvas(janela, width=800, height=600)
+canvas.pack(fill="both", expand=True)
+
+frame_geral = tk.Frame(canvas)
+canvas.create_window((0, 0), window=frame_geral, anchor='nw')
+
+frame_valores = tk.Frame(frame_geral, bg="#f0f0f0")
 frame_valores.pack(fill="both", expand=True, padx=10, pady=10)
 
 barra_rolagem = tk.Scrollbar(frame_valores)
 barra_rolagem.pack(side="right", fill="y")
 
-canvas = tk.Canvas(frame_valores, yscrollcommand=barra_rolagem.set)
-canvas.pack(side="left", fill="both", expand=True)
-barra_rolagem.config(command=canvas.yview)
+frame_entradas_valores = tk.Frame(frame_valores)
+frame_entradas_valores.pack(fill="both", expand=True)
 
-frame_entradas_valores = tk.Frame(canvas)
-canvas.create_window((0, 0), window=frame_entradas_valores, anchor='nw')
+frame_porcentagens = tk.Frame(frame_geral, bg="#f0f0f0")
+frame_porcentagens.pack(fill="x", padx=10, pady=10)
 
-botao_calcular = tk.Button(janela, text="Calcular", command=calcular_valores, bg="#2196F3", fg="#ffffff", relief="flat")
+label_porcentagens = tk.Label(frame_porcentagens, text="Selecione os fatores:")
+label_porcentagens.pack(fill="x")
+
+var_fator_3_0 = tk.BooleanVar()
+var_fator_2_8 = tk.BooleanVar()
+var_fator_2_7 = tk.BooleanVar()
+var_fator_2_5 = tk.BooleanVar()
+var_fator_2_25 = tk.BooleanVar()
+
+checkbox_fator_3_0 = tk.Checkbutton(frame_porcentagens, text="3.0", variable=var_fator_3_0)
+checkbox_fator_3_0.pack(fill="x")
+
+checkbox_fator_2_8 = tk.Checkbutton(frame_porcentagens, text="2.8", variable=var_fator_2_8)
+checkbox_fator_2_8.pack(fill="x")
+
+checkbox_fator_2_7 = tk.Checkbutton(frame_porcentagens, text="2.7", variable=var_fator_2_7)
+checkbox_fator_2_7.pack(fill="x")
+
+checkbox_fator_2_5 = tk.Checkbutton(frame_porcentagens, text="2.5", variable=var_fator_2_5)
+checkbox_fator_2_5.pack(fill="x")
+
+checkbox_fator_2_25 = tk.Checkbutton(frame_porcentagens, text="2.25", variable=var_fator_2_25)
+checkbox_fator_2_25.pack(fill="x")
+
+botao_calcular = tk.Button(frame_geral, text="Calcular", command=calcular_valores, bg="#2196F3", fg="#ffffff", relief="flat")
 botao_calcular.pack(fill="x", pady=5)
 
-frame_resultado = tk.Frame(janela, bg="#f0f0f0")
+frame_resultado = tk.Frame(frame_geral, bg="#f0f0f0")
 frame_resultado.pack(fill="both", expand=True, padx=10, pady=10)
 
 barra_rolagem_resultado = tk.Scrollbar(frame_resultado)
@@ -112,33 +142,11 @@ texto_resultados.config(state="disabled")
 
 barra_rolagem_resultado.config(command=texto_resultados.yview)
 
-frame_porcentagens = tk.Frame(janela, bg="#f0f0f0")
-frame_porcentagens.pack(fill="x", padx=10, pady=10)
-
-label_porcentagens = tk.Label(frame_porcentagens, text="Selecione as porcentagens:")
-label_porcentagens.pack(fill="x")
-
-var_porcentagem_3_0 = tk.BooleanVar()
-var_porcentagem_2_8 = tk.BooleanVar()
-var_porcentagem_2_7 = tk.BooleanVar()
-var_porcentagem_2_5 = tk.BooleanVar()
-var_porcentagem_2_25 = tk.BooleanVar()
-
-checkbox_porcentagem_3_0 = tk.Checkbutton(frame_porcentagens, text="3.0%", variable=var_porcentagem_3_0)
-checkbox_porcentagem_3_0.pack(fill="x")
-
-checkbox_porcentagem_2_8 = tk.Checkbutton(frame_porcentagens, text="2.8%", variable=var_porcentagem_2_8)
-checkbox_porcentagem_2_8.pack(fill="x")
-
-checkbox_porcentagem_2_7 = tk.Checkbutton(frame_porcentagens, text="2.7%", variable=var_porcentagem_2_7)
-checkbox_porcentagem_2_7.pack(fill="x")
-
-checkbox_porcentagem_2_5 = tk.Checkbutton(frame_porcentagens, text="2.5%", variable=var_porcentagem_2_5)
-checkbox_porcentagem_2_5.pack(fill="x")
-
-checkbox_porcentagem_2_25 = tk.Checkbutton(frame_porcentagens, text="2.25%", variable=var_porcentagem_2_25)
-checkbox_porcentagem_2_25.pack(fill="x")
-
 entradas_valores = []
+
+def update_scrollregion(event):
+    canvas.config(scrollregion=canvas.bbox("all"))
+
+canvas.bind("<Configure>", update_scrollregion)
 
 janela.mainloop()
