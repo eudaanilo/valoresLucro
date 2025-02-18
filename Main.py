@@ -39,7 +39,7 @@ def calcular_valores():
         for fator in fatores:
             texto_resultados.insert(tk.END, f"\tValor x {fator}\t")
         texto_resultados.insert(tk.END, "\n")
-        texto_resultados.insert(tk.END, "---------------------------------------------------------------------------\n")
+        texto_resultados.insert(tk.END, "-----------------------------------------------------------------------------\n")
         
         for i, valor in enumerate(valores):
             texto_resultados.insert(tk.END, f"{i+1}\t{valor:.2f}")
