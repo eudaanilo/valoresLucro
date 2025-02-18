@@ -34,10 +34,10 @@ def criar_entradas_valores():
     num_itens = int(entrada_num_itens.get())
     entradas_valores.clear()
     for i in range(num_itens):
-        label_valor = tk.Label(frame_valores, text=f"Item {i+1}:", font=("Arial", 12))
-        label_valor.pack()
-        entrada_valor = tk.Entry(frame_valores, font=("Arial", 12), width=10)
-        entrada_valor.pack()
+        label_valor = tk.Label(frame_valores, text=f"Item {i+1}:")
+        label_valor.pack(fill="x")
+        entrada_valor = tk.Entry(frame_valores)
+        entrada_valor.pack(fill="x")
         entradas_valores.append(entrada_valor)
 
 def atualizar_entradas_valores():
@@ -46,35 +46,28 @@ def atualizar_entradas_valores():
 janela = tk.Tk()
 janela.title("Calculadora de Valores")
 
-# Criação do frame superior
 frame_superior = tk.Frame(janela, bg="#f0f0f0")
-frame_superior.pack(padx=10, pady=10)
+frame_superior.pack(fill="x", padx=10, pady=10)
 
-# Criação do label e entrada para o número de itens
-label_num_itens = tk.Label(frame_superior, text="Quantos itens você deseja calcular?", font=("Arial", 12))
-label_num_itens.pack()
-entrada_num_itens = tk.Entry(frame_superior, font=("Arial", 12), width=5)
-entrada_num_itens.pack()
+label_num_itens = tk.Label(frame_superior, text="Quantos itens você deseja calcular?")
+label_num_itens.pack(fill="x")
+entrada_num_itens = tk.Entry(frame_superior)
+entrada_num_itens.pack(fill="x")
 
-# Criação do botão para atualizar as entradas de valores
-botao_atualizar = tk.Button(frame_superior, text="Atualizar", command=atualizar_entradas_valores, font=("Arial", 12), bg="#4CAF50", fg="#ffffff", relief="flat")
-botao_atualizar.pack(pady=5)
+botao_atualizar = tk.Button(frame_superior, text="Atualizar", command=atualizar_entradas_valores, bg="#4CAF50", fg="#ffffff", relief="flat")
+botao_atualizar.pack(fill="x", pady=5)
 
-# Criação do frame para as entradas de valores
 frame_valores = tk.Frame(janela, bg="#f0f0f0")
-frame_valores.pack(padx=10, pady=10)
+frame_valores.pack(fill="both", expand=True, padx=10, pady=10)
 
-# Criação do botão para calcular os valores
-botao_calcular = tk.Button(janela, text="Calcular", command=calcular_valores, font=("Arial", 12), bg="#2196F3", fg="#ffffff", relief="flat")
-botao_calcular.pack(pady=10)
+botao_calcular = tk.Button(janela, text="Calcular", command=calcular_valores, bg="#2196F3", fg="#ffffff", relief="flat")
+botao_calcular.pack(fill="x", pady=10)
 
-# Criação do frame para o resultado
 frame_resultado = tk.Frame(janela, bg="#f0f0f0")
-frame_resultado.pack(padx=10, pady=10)
+frame_resultado.pack(fill="both", expand=True, padx=10, pady=10)
 
-# Criação do texto para o resultado
-texto_resultados = tk.Text(frame_resultado, font=("Arial", 12), width=60, height=10)
-texto_resultados.pack()
+texto_resultados = tk.Text(frame_resultado)
+texto_resultados.pack(fill="both", expand=True)
 
 entradas_valores = []
 
