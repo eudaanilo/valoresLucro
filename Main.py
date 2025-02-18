@@ -29,16 +29,18 @@ def calcular_valores():
         messagebox.showerror("Erro", "Por favor, insira valores válidos.")
 
 def criar_entradas_valores(event=None):
-    for widget in frame_valores.winfo_children():
+    for widget in frame_entradas_valores.winfo_children():
         widget.destroy()
     num_itens = int(entrada_num_itens.get())
     entradas_valores.clear()
     for i in range(num_itens):
-        label_valor = tk.Label(frame_valores, text=f"Item {i+1}:")
+        label_valor = tk.Label(frame_entradas_valores, text=f"Item {i+1}:")
         label_valor.pack(fill="x")
-        entrada_valor = tk.Entry(frame_valores)
+        entrada_valor = tk.Entry(frame_entradas_valores)
         entrada_valor.pack(fill="x")
         entradas_valores.append(entrada_valor)
+    frame_entradas_valores.update_idletasks()
+    canvas.config(scrollregion=canvas.bbox("all"))
 
 def atualizar_entradas_valores():
     criar_entradas_valores()
@@ -61,14 +63,29 @@ botao_atualizar.pack(fill="x", pady=5)
 frame_valores = tk.Frame(janela, bg="#f0f0f0")
 frame_valores.pack(fill="both", expand=True, padx=10, pady=10)
 
+barra_rolagem = tk.Scrollbar(frame_valores)
+barra_rolagem.pack(side="right", fill="y")
+
+canvas = tk.Canvas(frame_valores, yscrollcommand=barra_rolagem.set)
+canvas.pack(side="left", fill="both", expand=True)
+barra_rolagem.config(command=canvas.yview)
+
+frame_entradas_valores = tk.Frame(canvas)
+canvas.create_window((0, 0), window=frame_entradas_valores, anchor='nw')
+
 botao_calcular = tk.Button(janela, text="Calcular", command=calcular_valores, bg="#2196F3", fg="#ffffff", relief="flat")
 botao_calcular.pack(fill="x", pady=10)
 
 frame_resultado = tk.Frame(janela, bg="#f0f0f0")
 frame_resultado.pack(fill="both", expand=True, padx=10, pady=10)
 
-texto_resultados = tk.Text(frame_resultado)
+barra_rolagem_resultado = tk.Scrollbar(frame_resultado)
+barra_rolagem_resultado.pack(side="right", fill="y")
+
+texto_resultados = tk.Text(frame_resultado, yscrollcommand=barra_rolagem_resultado.set)
 texto_resultados.pack(fill="both", expand=True)
+
+barra_rolagem_resultado.config(command=texto_resultados.yview)
 
 entradas_valores = []
 
