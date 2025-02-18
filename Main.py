@@ -8,27 +8,45 @@ def calcular_valores():
             messagebox.showerror("Erro", "Por favor, insira um número de itens positivo.")
             return
         valores = []
-        resultados = []
         for i in range(num_itens):
             valor = float(entradas_valores[i].get().replace(',', '.'))
             if valor < 0:
                 messagebox.showerror("Erro", "Por favor, insira um valor não negativo.")
                 return
             valores.append(valor)
-        fatores = [2.7, 2.5, 2.25]
-        for valor in valores:
-            resultado = []
-            for fator in fatores:
-                resultado.append(valor * fator)
-            resultados.append(resultado)
+        
+        porcentagens = []
+        if var_porcentagem_3_0.get():
+            porcentagens.append(3.0)
+        if var_porcentagem_2_8.get():
+            porcentagens.append(2.8)
+        if var_porcentagem_2_7.get():
+            porcentagens.append(2.7)
+        if var_porcentagem_2_5.get():
+            porcentagens.append(2.5)
+        if var_porcentagem_2_25.get():
+            porcentagens.append(2.25)
+        
+        if not porcentagens:
+            messagebox.showerror("Erro", "Por favor, selecione pelo menos uma porcentagem.")
+            return
+        
         texto_resultados.config(state="normal")  # Habilita o campo de resultados
         texto_resultados.delete(1.0, tk.END)
         texto_resultados.insert(tk.END, "\t\t\tTabela de Preços:\n")
         texto_resultados.insert(tk.END, "---------------------------------------------------------------\n")
-        texto_resultados.insert(tk.END, "Item | Valor Inserido | Valor x 2.7 | Valor x 2.5 | Valor x 2.25\n")
+        texto_resultados.insert(tk.END, "Item | Valor Inserido | ")
+        for porcentagem in porcentagens:
+            texto_resultados.insert(tk.END, f"Valor x {porcentagem} | ")
+        texto_resultados.insert(tk.END, "\n")
         texto_resultados.insert(tk.END, "---------------------------------------------------------------\n")
-        for i, (valor, resultado) in enumerate(zip(valores, resultados)):
-            texto_resultados.insert(tk.END, f"{i+1}\t{valor:.2f}\t\t{resultado[0]:.2f}\t\t{resultado[1]:.2f}\t\t{resultado[2]:.2f}\n")
+        
+        for i, valor in enumerate(valores):
+            texto_resultados.insert(tk.END, f"{i+1}\t{valor:.2f}\t")
+            for porcentagem in porcentagens:
+                texto_resultados.insert(tk.END, f"{valor * porcentagem:.2f}\t")
+            texto_resultados.insert(tk.END, "\n")
+        
         texto_resultados.config(state="disabled")  # Desabilita o campo de resultados
         texto_resultados.config(edit_modified=False)  # Desabilita a edição do campo de resultados
     except ValueError:
@@ -93,6 +111,33 @@ texto_resultados.pack(fill="both", expand=True)
 texto_resultados.config(state="disabled")
 
 barra_rolagem_resultado.config(command=texto_resultados.yview)
+
+frame_porcentagens = tk.Frame(janela, bg="#f0f0f0")
+frame_porcentagens.pack(fill="x", padx=10, pady=10)
+
+label_porcentagens = tk.Label(frame_porcentagens, text="Selecione as porcentagens:")
+label_porcentagens.pack(fill="x")
+
+var_porcentagem_3_0 = tk.BooleanVar()
+var_porcentagem_2_8 = tk.BooleanVar()
+var_porcentagem_2_7 = tk.BooleanVar()
+var_porcentagem_2_5 = tk.BooleanVar()
+var_porcentagem_2_25 = tk.BooleanVar()
+
+checkbox_porcentagem_3_0 = tk.Checkbutton(frame_porcentagens, text="3.0%", variable=var_porcentagem_3_0)
+checkbox_porcentagem_3_0.pack(fill="x")
+
+checkbox_porcentagem_2_8 = tk.Checkbutton(frame_porcentagens, text="2.8%", variable=var_porcentagem_2_8)
+checkbox_porcentagem_2_8.pack(fill="x")
+
+checkbox_porcentagem_2_7 = tk.Checkbutton(frame_porcentagens, text="2.7%", variable=var_porcentagem_2_7)
+checkbox_porcentagem_2_7.pack(fill="x")
+
+checkbox_porcentagem_2_5 = tk.Checkbutton(frame_porcentagens, text="2.5%", variable=var_porcentagem_2_5)
+checkbox_porcentagem_2_5.pack(fill="x")
+
+checkbox_porcentagem_2_25 = tk.Checkbutton(frame_porcentagens, text="2.25%", variable=var_porcentagem_2_25)
+checkbox_porcentagem_2_25.pack(fill="x")
 
 entradas_valores = []
 
