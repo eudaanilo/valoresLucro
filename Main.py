@@ -9,7 +9,6 @@ def calcular_valores():
             return
         valores = []
         resultados = []
-        
         for i in range(num_itens):
             valor = float(entradas_valores[i].get().replace(',', '.'))
             valores.append(valor)
@@ -21,15 +20,15 @@ def calcular_valores():
             resultados.append(resultado)
         texto_resultados.delete(1.0, tk.END)
         texto_resultados.insert(tk.END, "\t\t\tTabela de Preços:\n")
-        texto_resultados.insert(tk.END, "-----------------------------------------------------------------\n")
+        texto_resultados.insert(tk.END, "---------------------------------------------------------------\n")
         texto_resultados.insert(tk.END, "Item | Valor Inserido | Valor x 2.7 | Valor x 2.5 | Valor x 2.25\n")
-        texto_resultados.insert(tk.END, "-----------------------------------------------------------------\n")
+        texto_resultados.insert(tk.END, "---------------------------------------------------------------\n")
         for i, (valor, resultado) in enumerate(zip(valores, resultados)):
             texto_resultados.insert(tk.END, f"{i+1}\t{valor:.2f}\t\t{resultado[0]:.2f}\t\t{resultado[1]:.2f}\t\t{resultado[2]:.2f}\n")
     except ValueError:
         messagebox.showerror("Erro", "Por favor, insira valores válidos.")
 
-def criar_entradas_valores():
+def criar_entradas_valores(event=None):
     for widget in frame_valores.winfo_children():
         widget.destroy()
     num_itens = int(entrada_num_itens.get())
@@ -54,6 +53,7 @@ label_num_itens = tk.Label(frame_superior, text="Quantos itens você deseja calc
 label_num_itens.pack(fill="x")
 entrada_num_itens = tk.Entry(frame_superior)
 entrada_num_itens.pack(fill="x")
+entrada_num_itens.bind("<Return>", criar_entradas_valores)
 
 botao_atualizar = tk.Button(frame_superior, text="Atualizar", command=atualizar_entradas_valores, bg="#4CAF50", fg="#ffffff", relief="flat")
 botao_atualizar.pack(fill="x", pady=5)
