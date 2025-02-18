@@ -1,5 +1,5 @@
 def calcular_valores():
-    # Perguntar quantos itens
+
     num_itens = int(input("Quantos itens você deseja calcular? "))
 
     # Criar uma lista para armazenar os valores
