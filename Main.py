@@ -4,13 +4,16 @@ from tkinter import messagebox
 def calcular_valores():
     try:
         num_itens = int(entrada_num_itens.get())
-        if num_itens <0:
+        if num_itens <= 0:
             messagebox.showerror("Erro", "Por favor, insira um número de itens positivo.")
             return
         valores = []
         resultados = []
         for i in range(num_itens):
             valor = float(entradas_valores[i].get().replace(',', '.'))
+            if valor < 0:
+                messagebox.showerror("Erro", "Por favor, insira um valor não negativo.")
+                return
             valores.append(valor)
         fatores = [2.7, 2.5, 2.25]
         for valor in valores:
@@ -18,6 +21,7 @@ def calcular_valores():
             for fator in fatores:
                 resultado.append(valor * fator)
             resultados.append(resultado)
+        texto_resultados.config(state="normal")  # Habilita o campo de resultados
         texto_resultados.delete(1.0, tk.END)
         texto_resultados.insert(tk.END, "\t\t\tTabela de Preços:\n")
         texto_resultados.insert(tk.END, "---------------------------------------------------------------\n")
@@ -25,6 +29,8 @@ def calcular_valores():
         texto_resultados.insert(tk.END, "---------------------------------------------------------------\n")
         for i, (valor, resultado) in enumerate(zip(valores, resultados)):
             texto_resultados.insert(tk.END, f"{i+1}\t{valor:.2f}\t\t{resultado[0]:.2f}\t\t{resultado[1]:.2f}\t\t{resultado[2]:.2f}\n")
+        texto_resultados.config(state="disabled")  # Desabilita o campo de resultados
+        texto_resultados.config(edit_modified=False)  # Desabilita a edição do campo de resultados
     except ValueError:
         messagebox.showerror("Erro", "Por favor, insira valores válidos.")
 
@@ -74,7 +80,7 @@ frame_entradas_valores = tk.Frame(canvas)
 canvas.create_window((0, 0), window=frame_entradas_valores, anchor='nw')
 
 botao_calcular = tk.Button(janela, text="Calcular", command=calcular_valores, bg="#2196F3", fg="#ffffff", relief="flat")
-botao_calcular.pack(fill="x", pady=10)
+botao_calcular.pack(fill="x", pady=5)
 
 frame_resultado = tk.Frame(janela, bg="#f0f0f0")
 frame_resultado.pack(fill="both", expand=True, padx=10, pady=10)
@@ -84,6 +90,7 @@ barra_rolagem_resultado.pack(side="right", fill="y")
 
 texto_resultados = tk.Text(frame_resultado, yscrollcommand=barra_rolagem_resultado.set)
 texto_resultados.pack(fill="both", expand=True)
+texto_resultados.config(state="disabled")
 
 barra_rolagem_resultado.config(command=texto_resultados.yview)
 
