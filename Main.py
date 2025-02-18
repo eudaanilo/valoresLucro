@@ -4,7 +4,7 @@ from tkinter import messagebox
 def calcular_valores():
     try:
         num_itens = int(entrada_num_itens.get())
-        if num_itens <= 0:
+        if num_itens <0:
             messagebox.showerror("Erro", "Por favor, insira um número de itens positivo.")
             return
         valores = []
