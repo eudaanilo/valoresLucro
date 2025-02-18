@@ -19,10 +19,10 @@ def calcular_valores():
                 resultado.append(valor * fator)
             resultados.append(resultado)
         texto_resultados.delete(1.0, tk.END)
-        texto_resultados.insert(tk.END, "Tabela de Valores:\n")
-        texto_resultados.insert(tk.END, "------------------------\n")
-        texto_resultados.insert(tk.END, "Item\tValor Inserido\tValor x 2.7\tValor x 2.5\tValor x 2.25\n")
-        texto_resultados.insert(tk.END, "------------------------\n")
+        texto_resultados.insert(tk.END, "\t\t\tTabela de Preços:\n")
+        texto_resultados.insert(tk.END, "-----------------------------------------------------------------\n")
+        texto_resultados.insert(tk.END, "Item | Valor Inserido | Valor x 2.7 | Valor x 2.5 | Valor x 2.25\n")
+        texto_resultados.insert(tk.END, "-----------------------------------------------------------------\n")
         for i, (valor, resultado) in enumerate(zip(valores, resultados)):
             texto_resultados.insert(tk.END, f"{i+1}\t{valor:.2f}\t\t{resultado[0]:.2f}\t\t{resultado[1]:.2f}\t\t{resultado[2]:.2f}\n")
     except ValueError:
