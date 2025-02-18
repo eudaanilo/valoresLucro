@@ -1,5 +1,3 @@
-import openpyxl
-
 def calcular_valores():
     # Perguntar quantos itens
     num_itens = int(input("Quantos itens você deseja calcular? "))
@@ -31,24 +29,4 @@ def calcular_valores():
     for i, (valor, resultado) in enumerate(zip(valores, resultados)):
         print(f"{i+1}\t{valor:.2f}\t\t{resultado[0]:.2f}\t\t{resultado[1]:.2f}\t\t{resultado[2]:.2f}")
 
-    # Perguntar se o usuário deseja baixar a planilha
-    resposta = input("\nDeseja baixar a planilha com a tabela de resultados finais? (y/n): ")
-
-    if resposta.lower() == 'y':
-        # Criar um arquivo Excel
-        wb = openpyxl.Workbook()
-        ws = wb.active
-
-        # Adicionar cabeçalho
-        ws['A1'] = 'Item'
-        ws['B1'] = 'Valor Inserido'
-        ws['C1'] = 'Valor x 2.7'
-        ws['D1'] = 'Valor x 2.5'
-        ws['E1'] = 'Valor x 2.25'
-
-        # Adicionar dados
-        for i, (valor, resultado) in enumerate(zip(valores, resultados)):
-            ws[f'A{i+2}'] = i + 1
-            ws[f'B{i+2}'] = valor
-            ws[f'C{i+2}'] = resultado[0]
-            ws[f'D{i+2}'] = resultado[1] ws[f'E{i+2}'] = resultado[2]
+calcular_valores()
