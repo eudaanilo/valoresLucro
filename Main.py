@@ -31,23 +31,6 @@ def calcular_valores():
     except ValueError:
         messagebox.showerror("Erro", "Por favor, insira valores válidos.")
 
-janela = tk.Tk()
-janela.title("Calculadora de Valores")
-
-label_num_itens = tk.Label(janela, text="Quantos itens você deseja calcular?")
-label_num_itens.pack()
-
-entrada_num_itens = tk.Entry(janela)
-entrada_num_itens.pack()
-
-botao_calcular = tk.Button(janela, text="Calcular", command=calcular_valores)
-botao_calcular.pack()
-
-label_valores = tk.Label(janela, text="Insira os valores dos itens:")
-label_valores.pack()
-
-entradas_valores = []
-
 def criar_entradas_valores():
     for widget in frame_valores.winfo_children():
         widget.destroy()
@@ -62,11 +45,31 @@ def criar_entradas_valores():
         entrada_valor.pack()
         entradas_valores.append(entrada_valor)
 
+def atualizar_entradas_valores():
+    criar_entradas_valores()
+
+janela = tk.Tk()
+janela.title("Calculadora de Valores")
+
+label_num_itens = tk.Label(janela, text="Quantos itens você deseja calcular?")
+label_num_itens.pack()
+
+entrada_num_itens = tk.Entry(janela)
+entrada_num_itens.pack()
+
+botao_atualizar = tk.Button(janela, text="Atualizar", command=atualizar_entradas_valores)
+botao_atualizar.pack()
+
+label_valores = tk.Label(janela, text="Insira os valores dos itens:")
+label_valores.pack()
+
+entradas_valores = []
+
 frame_valores = tk.Frame(janela)
 frame_valores.pack()
 
-botao_criar_entradas = tk.Button(janela, text="Criar entradas para valores", command=criar_entradas_valores)
-botao_criar_entradas.pack()
+botao_calcular = tk.Button(janela, text="Calcular", command=calcular_valores)
+botao_calcular.pack()
 
 texto_resultados = tk.Text(janela)
 texto_resultados.pack()
