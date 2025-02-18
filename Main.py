@@ -9,6 +9,7 @@ def calcular_valores():
             return
         valores = []
         resultados = []
+        
         for i in range(num_itens):
             valor = float(entradas_valores[i].get().replace(',', '.'))
             valores.append(valor)
